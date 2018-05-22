@@ -7,9 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 class Ex02TreeHeight {
-
-    private Map<Integer, Node> map = new HashMap<>();
-
     public static void main(String[] args) throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         in.readLine();
@@ -18,49 +15,52 @@ class Ex02TreeHeight {
     }
 
     void run(String in) {
-
+        Tree tree = new Tree();
         String[] tokens = in.split(" ");
-
-        for (int key = 0; key < tokens.length; key++) {
-            int parentKey = Integer.parseInt(tokens[key]);
-            Node child = new Node();
-            child.setKey(key);
-
-            Node parent = map.getOrDefault(parentKey, new Node());
-            parent.setKey(parentKey);
-            parent.getChildes().add(child);
-            map.put(parentKey, parent);
+        for (int i = 0; i < tokens.length; i++) {
+            int key = Integer.parseInt(tokens[i]);
+            Node node = tree.nodeMap.getOrDefault(i, new Node(i));
+            if (key != -1) {
+                tree.nodeMap.putIfAbsent(i, node);
+                Node parent = tree.nodeMap.getOrDefault(key, new Node(key));
+                tree.nodeMap.putIfAbsent(key, parent);
+                parent.getChildes().add(node);
+            } else {
+                tree.root = node;
+                tree.nodeMap.put(i, node);
+            }
         }
-        System.out.println(getHeight(map.get(-1)));
+        System.out.println(tree.getHeight(tree.root));
     }
 
-    private int getHeight(Node root) {
-        int height = 1;
+    class Tree {
+        Node root;
+        Map<Integer, Node> nodeMap = new HashMap<>();
 
-        for (Node child : root.getChildes()) {
-            height = Math.max(height, getHeight(child) + 1);
+        /**
+         * Return height of the subtree with root at node
+         * @param node root of the subtree
+         * @return the height of the subtree
+         */
+        int getHeight(Node node) {
+            int height = 1;
+            for (Node child : node.getChildes()) {
+                height = Math.max(height, 1 + getHeight(child));
+            }
+            return height;
         }
-        return height;
     }
 
     class Node {
-        private Integer key;
+        private int key;
         private List<Node> childes = new ArrayList<>();
 
-        public Integer getKey() {
-            return key;
-        }
-
-        void setKey(Integer key) {
+        Node(int key) {
             this.key = key;
         }
 
         List<Node> getChildes() {
             return childes;
-        }
-
-        public void setChildes(List<Node> childes) {
-            this.childes = childes;
         }
     }
 }

@@ -49,4 +49,15 @@ public class Ex02TreeHeightTest {
         // than
         assertEquals("4\n", systemOutRule.getLog());
     }
+
+    @Test
+    public void node_with_four_child_height_four() {
+        // given
+        String input = "9 7 5 5 2 9 9 9 2 -1";
+        // when
+        new Ex02TreeHeight().run(input);
+        // than
+        assertEquals("4\n", systemOutRule.getLog());
+    }
+
 }
