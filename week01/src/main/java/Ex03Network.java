@@ -27,7 +27,7 @@ class Ex03Network {
             duration = Integer.parseInt(stk.nextToken());
 
             // drop packet if queue full & timeWhenProcWillBeFree > arriveTime
-            if (queue.size() == size && arriveTime < queue.getFirst()) {
+            if (queue.size() >= size && arriveTime < queue.getFirst()) {
                 System.out.println(-1);
                 continue;
             }

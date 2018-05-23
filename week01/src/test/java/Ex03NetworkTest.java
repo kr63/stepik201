@@ -111,6 +111,83 @@ public class Ex03NetworkTest {
     }
 
     @Test
+    public void two_packets_intersect() throws IOException {
+        // given
+        systemInMock.provideLines("1 2", "1 2", "2 2");
+        // when
+        new Ex03Network().run(new BufferedReader(new InputStreamReader(System.in)));
+        // than
+        assertEquals("1\n-1\n", systemOutRule.getLog());
+    }
+
+    @Test
+    public void two_packets_touch() throws IOException {
+        // given
+        systemInMock.provideLines("1 2", "1 2", "3 2");
+        // when
+        new Ex03Network().run(new BufferedReader(new InputStreamReader(System.in)));
+        // than
+        assertEquals("1\n3\n", systemOutRule.getLog());
+    }
+
+    @Test
+    public void two_packets_not_touch() throws IOException {
+        // given
+        systemInMock.provideLines("1 2", "1 2", "4 2");
+        // when
+        new Ex03Network().run(new BufferedReader(new InputStreamReader(System.in)));
+        // than
+        assertEquals("1\n4\n", systemOutRule.getLog());
+    }
+
+    @Test
+    public void three_packets_touch() throws IOException {
+        // given
+        systemInMock.provideLines("1 3", "1 2", "1 1", "3 2");
+        // when
+        new Ex03Network().run(new BufferedReader(new InputStreamReader(System.in)));
+        // than
+        assertEquals("1\n-1\n3\n", systemOutRule.getLog());
+    }
+
+    @Test
+    public void three_packets_intersect() throws IOException {
+        // given
+        systemInMock.provideLines("1 3", "1 2", "1 1", "2 2");
+        // when
+        new Ex03Network().run(new BufferedReader(new InputStreamReader(System.in)));
+        // than
+        assertEquals("1\n-1\n-1\n", systemOutRule.getLog());
+    }
+
+    @Test
+    public void five_packets_come_simultaneously2() throws IOException {
+        // given
+        systemInMock.provideLines("1 5", "1 1", "2 1", "2 2", "2 1", "2 1");
+        // when
+        new Ex03Network().run(new BufferedReader(new InputStreamReader(System.in)));
+        // than
+        assertEquals( "1 2 -1 -1 -1".replaceAll(" ", "\n") + "\n", systemOutRule.getLog());
+    }
+    @Test
+    public void five_packets_come_simultaneously3() throws IOException {
+        // given
+        systemInMock.provideLines("1 5",
+                "999999 1",
+                "1000000 0",
+                "1000000 1",
+                "1000000 0",
+                "1000000 0");
+        // when
+        new Ex03Network().run(new BufferedReader(new InputStreamReader(System.in)));
+        // than
+        assertEquals("999999\n" +
+                "1000000\n" +
+                "1000000\n" +
+                "-1\n-1\n", systemOutRule.getLog());
+    }
+
+    @Test
     public void long_test1() throws IOException {
         // given
         InputStream in = Ex03Network.class.getResourceAsStream("ex02_long_test1_input.txt");
