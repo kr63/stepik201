@@ -1,3 +1,4 @@
+import com.google.common.io.CharStreams;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.SystemOutRule;
@@ -5,6 +6,7 @@ import org.junit.contrib.java.lang.system.TextFromStandardInputStream;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import static org.junit.Assert.assertEquals;
@@ -79,7 +81,7 @@ public class Ex03NetworkTest {
     }
 
     @Test
-    public void test() throws IOException {
+    public void packets_with_gap() throws IOException {
         // given
         systemInMock.provideLines("2 4", "1 1", "1 1", "5 1", "10 1");
         // when
@@ -88,9 +90,28 @@ public class Ex03NetworkTest {
         assertEquals("1\n2\n5\n10\n", systemOutRule.getLog());
     }
 
-/*    @Test
-    public void long_test1() throws IOException {
+    @Test
+    public void three_packets_come_simultaneously() throws IOException {
+        // given
+        systemInMock.provideLines("1 3", "1 1", "1 2", "1 3");
+        // when
+        new Ex03Network().run(new BufferedReader(new InputStreamReader(System.in)));
+        // than
+        assertEquals("1\n-1\n-1\n", systemOutRule.getLog());
+    }
 
+    @Test
+    public void five_packets_come_simultaneously() throws IOException {
+        // given
+        systemInMock.provideLines("2 5", "1 1", "1 0", "1 0", "1 2", "1 3");
+        // when
+        new Ex03Network().run(new BufferedReader(new InputStreamReader(System.in)));
+        // than
+        assertEquals("1\n2\n-1\n-1\n-1\n", systemOutRule.getLog());
+    }
+
+    @Test
+    public void long_test1() throws IOException {
         // given
         InputStream in = Ex03Network.class.getResourceAsStream("ex02_long_test1_input.txt");
         InputStream out = Ex03Network.class.getResourceAsStream("ex02_long_test1_output.txt");
@@ -99,5 +120,17 @@ public class Ex03NetworkTest {
         new Ex03Network().run(new BufferedReader(new InputStreamReader(in)));
         // than
         assertEquals(output, systemOutRule.getLog());
-    }*/
+    }
+
+    @Test
+    public void long_test2() throws IOException {
+        // given
+        InputStream in = Ex03Network.class.getResourceAsStream("ex02_long_test2_input.txt");
+        InputStream out = Ex03Network.class.getResourceAsStream("ex02_long_test2_output.txt");
+        String output = CharStreams.toString(new InputStreamReader(out));
+        // when
+        new Ex03Network().run(new BufferedReader(new InputStreamReader(in)));
+        // than
+        assertEquals(output, systemOutRule.getLog());
+    }
 }

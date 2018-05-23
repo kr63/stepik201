@@ -3,7 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-public class Ex03Network {
+class Ex03Network {
     private Deque<Integer> queue = new LinkedList<>();
 
     public static void main(String[] args) throws IOException {
@@ -34,7 +34,10 @@ public class Ex03Network {
 
             try {
                 startTime = queue.removeLast();
-                System.out.println(startTime);
+                // arriveTime > startTime --> proc is free --> can start process
+                if (arriveTime > startTime) System.out.println(arriveTime);
+                else System.out.println(startTime);
+
                 timeWhenProcWillBeFree = startTime + duration;
                 queue.addLast(timeWhenProcWillBeFree);
             } catch (NoSuchElementException nse) {
