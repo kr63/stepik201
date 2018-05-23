@@ -78,6 +78,16 @@ public class Ex03NetworkTest {
         assertEquals("0\n0\n0\n1\n", systemOutRule.getLog());
     }
 
+    @Test
+    public void test() throws IOException {
+        // given
+        systemInMock.provideLines("2 4", "1 1", "1 1", "5 1", "10 1");
+        // when
+        new Ex03Network().run(new BufferedReader(new InputStreamReader(System.in)));
+        // than
+        assertEquals("1\n2\n5\n10\n", systemOutRule.getLog());
+    }
+
 /*    @Test
     public void long_test1() throws IOException {
 
