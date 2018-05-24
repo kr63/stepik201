@@ -169,6 +169,7 @@ public class Ex03NetworkTest {
         // than
         assertEquals( "1 2 -1 -1 -1".replaceAll(" ", "\n") + "\n", systemOutRule.getLog());
     }
+
     @Test
     public void five_packets_come_simultaneously3() throws IOException {
         // given
@@ -233,5 +234,15 @@ public class Ex03NetworkTest {
         new Ex03Network().run(new BufferedReader(new InputStreamReader(in)));
         // than
         assertEquals(output, systemOutRule.getLog());
+    }
+
+    @Test
+    public void last_packet_arrive_when_first_should_gone_from_queue() throws IOException {
+        // given
+        systemInMock.provideLines("3 4", "0 10", "2 3", "6 7", "11 4");
+        // when
+        new Ex03Network().run(new BufferedReader(new InputStreamReader(System.in)));
+        // than
+        assertEquals( "0 10 13 20".replaceAll(" ", "\n") + "\n", systemOutRule.getLog());
     }
 }
