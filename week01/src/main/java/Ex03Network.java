@@ -18,7 +18,8 @@ class Ex03Network {
         if (number == 0) return;
 
         int startTime;
-        int arriveTime, duration, timeWhenProcWillBeFree;
+        int arriveTime, duration;
+        int timeWhenProcWillBeFree = 0;
 
         for (int i = 0; i < number; i++) {
             // read arrive time & duration of the packet
@@ -26,26 +27,27 @@ class Ex03Network {
             arriveTime = Integer.parseInt(stk.nextToken());
             duration = Integer.parseInt(stk.nextToken());
 
-            // drop packet if queue full & timeWhenProcWillBeFree > arriveTime
-            if (queue.size() >= size && arriveTime < queue.getFirst()) {
+            // check the queue size. If queue is full drop packet
+            if (queue.size() == size && arriveTime < queue.getLast()) {
                 System.out.println(-1);
                 continue;
             }
-
-            try {
-                startTime = queue.removeLast();
-                // arriveTime > startTime --> proc is free --> can start process
-                if (arriveTime > startTime) System.out.println(arriveTime);
-                else System.out.println(startTime);
-
-                timeWhenProcWillBeFree = startTime + duration;
-                queue.addLast(timeWhenProcWillBeFree);
-            } catch (NoSuchElementException nse) {
-                // if queue is empty --> startTime is arriveTime
-                System.out.println(arriveTime);
+            // arriveTime >= timeWhenProcWillBeFree --> proc isFree
+            if (arriveTime >= timeWhenProcWillBeFree) {
+                startTime = arriveTime;
                 timeWhenProcWillBeFree = arriveTime + duration;
                 queue.addLast(timeWhenProcWillBeFree);
+            } else {
+                startTime = timeWhenProcWillBeFree;
+                timeWhenProcWillBeFree += duration;
+                queue.addLast(timeWhenProcWillBeFree);
             }
+
+            if (queue.getFirst() <= arriveTime) {
+                queue.removeFirst();
+            }
+
+            System.out.println(startTime);
         }
     }
 }

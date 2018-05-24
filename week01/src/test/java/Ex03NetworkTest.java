@@ -210,4 +210,28 @@ public class Ex03NetworkTest {
         // than
         assertEquals(output, systemOutRule.getLog());
     }
+
+    @Test
+    public void long_test3() throws IOException {
+        // given
+        InputStream in = Ex03Network.class.getResourceAsStream("ex02_long_test3_input.txt");
+        InputStream out = Ex03Network.class.getResourceAsStream("ex02_long_test3_output.txt");
+        String output = CharStreams.toString(new InputStreamReader(out));
+        // when
+        new Ex03Network().run(new BufferedReader(new InputStreamReader(in)));
+        // than
+        assertEquals(output, systemOutRule.getLog());
+    }
+
+    @Test
+    public void long_test4() throws IOException {
+        // given
+        InputStream in = Ex03Network.class.getResourceAsStream("ex02_long_test4_input.txt");
+        InputStream out = Ex03Network.class.getResourceAsStream("ex02_long_test4_output.txt");
+        String output = CharStreams.toString(new InputStreamReader(out));
+        // when
+        new Ex03Network().run(new BufferedReader(new InputStreamReader(in)));
+        // than
+        assertEquals(output, systemOutRule.getLog());
+    }
 }
