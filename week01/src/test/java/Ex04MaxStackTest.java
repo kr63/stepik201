@@ -2,8 +2,12 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.SystemOutRule;
+import org.junit.contrib.java.lang.system.TextFromStandardInputStream;
+
+import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.contrib.java.lang.system.TextFromStandardInputStream.emptyStandardInputStream;
 
 
 public class Ex04MaxStackTest {
@@ -13,9 +17,28 @@ public class Ex04MaxStackTest {
     @Rule
     public SystemOutRule systemOutRule = new SystemOutRule().enableLog();
 
+    @Rule
+    public TextFromStandardInputStream systemInMock = emptyStandardInputStream();
+
     @Before
     public void setUp() {
         stackWithMax = new StackWithMax();
+    }
+
+    @Test
+    public void test_input() throws IOException {
+        // given
+        systemInMock.provideLines(
+                "5\n" +
+                "push 2\n" +
+                "push 1\n" +
+                "max\n" +
+                "pop\n" +
+                "max");
+        // when
+        new Ex04MaxStack().run();
+        // than
+        assertEquals("2\n2\n", systemOutRule.getLog());
     }
 
     @Test

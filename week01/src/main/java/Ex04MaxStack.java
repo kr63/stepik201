@@ -1,22 +1,25 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.LinkedList;
-import java.util.Scanner;
+import java.util.StringTokenizer;
 
 class Ex04MaxStack {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         new Ex04MaxStack().run();
     }
 
-    private void run() {
+    void run() throws IOException {
         StackWithMax stackWithMax = new StackWithMax();
 
-        Scanner in = new Scanner(System.in);
-        int n = in.nextInt();
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        int n = Integer.parseInt(in.readLine());
 
         for (int i = 0; i < n; i++) {
-            String command = in.next();
-            switch (command) {
+            StringTokenizer stk = new StringTokenizer(in.readLine());
+            switch (stk.nextToken()) {
                 case "push":
-                    stackWithMax.push(in.nextInt());
+                    stackWithMax.push(Integer.parseInt(stk.nextToken()));
                     break;
                 case "max":
                     System.out.println(stackWithMax.getCurrentMax());
