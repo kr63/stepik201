@@ -17,7 +17,7 @@ public class Ex02HashChainTest {
     public TextFromStandardInputStream systemInMock = emptyStandardInputStream();
 
     @Test
-    public void testHashFunction() {
+    public void testHashFunction1() {
         // given
         HashTable hashTable = new HashTable(5);
         // when
@@ -26,6 +26,46 @@ public class Ex02HashChainTest {
         // then
         assertEquals(4, hash1);
         assertEquals(4, hash2);
+    }
+
+    @Test
+    public void testHashFunction2() {
+        // given
+        HashTable hashTable = new HashTable(17);
+        String str = "aaaaaaaaaaaaaa sdd sre wew re wr swedrwe " +
+                "werwer weaaaaaaaaaaaaaaa sdd sre wew re wr swedrwe " +
+                "werwer weaaaaaaaaaaaaaaa sdd sre wew re wr swedrwe " +
+                "werwer weaaaaaaaaaaaaaaa sdd sre wew re wr swedrwe " +
+                "werwer weaaaaaaaaaaaaaaa sdd sre wew re wr swedrwe " +
+                "werwer weaaaaaaaaaaaaaaa sdd sre wew re wr swedrwe " +
+                "werwer weaaaaaaaaaaaaaaa sdd sre wew re wr swedrwe " +
+                "werwer weaaaaaaaaaaaaaaa sdd sre wew re wr swedrwe " +
+                "werwer weaaaaaaaaaaaaaaa sdd sre wew re wr swedrwe " +
+                "werwer weaaaaaaaaaaaaaaa sdd sre wew re wr swedrwe " +
+                "werwer weaaaaaaaaaaaaaaa sdd sre wew re wr swedrwe " +
+                "werwer weaaaaaaaaaaaaaaa sdd sre wew re wr swedrwe " +
+                "werwer weaaaaaaaaaaaaaaa sdd sre wew re wr swedrwe " +
+                "werwer weaaaaaaaaaaaaaaa sdd sre wew re wr swedrwe " +
+                "werwer weaaaaaaaaaaaaaaa sdd sre wew re wr swedrwe " +
+                "werwer weaaaaaaaaaaaaaaa sdd sre wew re wr swedrwe " +
+                "werwer weaaaaaaaaaaaaaaa sdd sre wew re wr swedrwe " +
+                "werwer weaaaaaaaaaaaaaaa sdd sre wew re wr swedrwe " +
+                "werwer weaaaaaaaaaaaaaaa sdd sre wew re wr swedrwe " +
+                "werwer weaaaaaaaaaaaaaaa sdd sre wew re wr swedrwe " +
+                "werwer weaaaaaaaaaaaaaaa sdd sre wew re wr swedrwe " +
+                "werwer weaaaaaaaaaaaaaaa sdd sre wew re wr swedrwe " +
+                "werwer weaaaaaaaaaaaaaaa sdd sre wew re wr swedrwe " +
+                "werwer weaaaaaaaaaaaaaaa sdd sre wew re wr swedrwe " +
+                "werwer weaaaaaaaaaaaaaaa sdd sre wew re wr swedrwe " +
+                "werwer weaaaaaaaaaaaaaaa sdd sre wew re wr swedrwe " +
+                "werwer weaaaaaaaaaaaaaaa sdd sre wew re wr swedrwe " +
+                "werwer weaaaaaaaaaaaaaaa sdd sre wew re wr swedrwe " +
+                "werwer weaaaaaaaaaaaaaaa sdd sre wew re wr swedrwe werwer wea";
+
+        // when
+        int hash = hashTable.hash(str);
+        // then
+        assertEquals(0, hash);
     }
 
     @Test
@@ -47,10 +87,10 @@ public class Ex02HashChainTest {
         // when
         hashTable.add("world");
         hashTable.add("HellO");
-        if (!hashTable.find("World")) System.out.println("no");
-        if (hashTable.find("world")) System.out.println("yes");
+        hashTable.find("World");
+        hashTable.find("world");
         // then
-        assertEquals("no\nyes", systemOutRule.getLog());
+        assertEquals("no\nyes\n", systemOutRule.getLog());
     }
 
     @Test
@@ -116,7 +156,7 @@ public class Ex02HashChainTest {
         // when
         chain.run();
         // then
-        assertEquals("no", systemOutRule.getLog());
+        assertEquals("no\n", systemOutRule.getLog());
     }
 
     @Test
@@ -128,9 +168,6 @@ public class Ex02HashChainTest {
         // when
         chain.run();
         // then
-        assertEquals("\nno", systemOutRule.getLog());
+        assertEquals("\nno\n", systemOutRule.getLog());
     }
-
-
-
 }

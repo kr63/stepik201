@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -28,8 +27,6 @@ class Ex02HashChain {
                     hashTable.add(stk.nextToken());
                     break;
                 case "find":
-//                    if (hashTable.find(stk.nextToken())) System.out.println("yes");
-//                    else System.out.println("no");
                     hashTable.find(stk.nextToken());
                     break;
                 case "del":
@@ -55,29 +52,34 @@ class HashTable {
     }
 
     int hash(String s) {
-        double hash = 0;
-        byte[] bytes = s.getBytes(StandardCharsets.US_ASCII);
-        for (int i = 0; i < s.length(); i++) hash += (bytes[i] * Math.pow(263, i));
-        return (int) (hash % 1_000_000_007) % baskets;
+        long hash = 0;
+        int prime = 1_000_000_007;
+        int multiplier = 263;
+        for (int i = s.length() - 1; i >= 0; --i)
+            hash = (hash * multiplier + s.charAt(i)) % prime;
+        return (int)hash % baskets;
     }
 
     void add(String s) {
-        int hash = hash(s);
-        if (!find(s)) hashTable.get(hash).add(s);
+        List<String> list = hashTable.get(hash(s));
+        if (!list.contains(s)) list.add(0, s);
     }
 
     void del(String s) {
-        if (find(s)) hashTable.get(hash(s)).remove(0);
+        List<String> list = hashTable.get(hash(s));
+        list.remove(s);
     }
 
-    boolean find(String s) {
-        return hashTable.get(hash(s)).contains(s);
+    void find(String s) {
+        List<String> list = hashTable.get(hash(s));
+        if (list.contains(s)) System.out.println("yes");
+        else System.out.println("no");
     }
 
     void check(int i) {
         StringBuilder sb = new StringBuilder();
         for (String s : hashTable.get(i)) {
-            sb.insert(0, s + " ");
+            sb.append(s).append(" ");
         }
         System.out.println(sb.toString().trim());
     }
