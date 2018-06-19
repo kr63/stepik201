@@ -1,12 +1,19 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.util.*;
 
 class Ex01TreeTraversal {
+
+    private int[] key;
+    private int[] left;
+    private int[] right;
+
     public static void main(String[] args) throws IOException {
 
-        new Ex01TreeTraversal().run();
+        Ex01TreeTraversal ex01TreeTraversal = new Ex01TreeTraversal();
+        ex01TreeTraversal.run();
+
     }
 
     void run() throws IOException {
@@ -14,70 +21,49 @@ class Ex01TreeTraversal {
         StringTokenizer stk = new StringTokenizer(in.readLine());
 
         // create tree
-        Tree tree = new Tree();
         int n = Integer.parseInt(stk.nextToken());
+        key = new int[n];
+        left = new int[n];
+        right = new int[n];
         for (int i = 0; i < n; i++) {
             stk = new StringTokenizer(in.readLine());
-            tree.insert(Integer.parseInt(stk.nextToken()));
-            int left = Integer.parseInt(stk.nextToken());
-            if (left != -1) {
-                tree.insert(left);
-            }
-            int right = Integer.parseInt(stk.nextToken());
-            if (right != -1) {
-                tree.insert(right);
-            }
+            key[i] = Integer.parseInt(stk.nextToken());
+            left[i] = Integer.parseInt(stk.nextToken());
+            right[i] = Integer.parseInt(stk.nextToken());
         }
 
-        tree.inOrder(tree.root);
+        List<Integer> inOrder = inOrder();
+        print(inOrder);
     }
 
-    private class Tree {
-        private Node root;
-
-        Tree() {
-            this.root = null;
+    private void print(List<Integer> list) {
+        StringBuilder sb = new StringBuilder();
+        for (int item: list) {
+            sb.append(item).append(" ");
         }
+        System.out.println(sb.toString().trim());
+    }
 
-        void inOrder(Node localRoot) {
-            if (localRoot == null) return;
-            inOrder(localRoot.left);
-            System.out.print(localRoot.key + " ");
-            inOrder(localRoot.right);
+    private List<Integer> inOrder() {
+        List<Integer> result = new ArrayList<>();
+        Stack<Integer> stack = new Stack<>();
+
+        pushAll(stack, 0);
+
+        while (!stack.isEmpty()) {
+            int top = stack.pop();
+            result.add(key[top]);
+            top = right[top];
+            pushAll(stack, top);
         }
+        return result;
+    }
 
-        void insert(int key) {
-            Node node = new Node();
-            node.key = key;
-
-            if (root == null) {
-                root = node;
-            } else {
-                Node current = root;
-                Node parent;
-                while (true) {
-                    parent = current;
-                    if (key < current.key) {
-                        current = current.left;
-                        if (current == null) {
-                            parent.left = node;
-                            return;
-                        }
-                    } else {
-                        current = current.right;
-                        if (current == null) {
-                            parent.right = node;
-                            return;
-                        }
-                    }
-                }
-            }
+    private void pushAll(Stack<Integer> stack, int root) {
+        while (root != -1) {
+            stack.push(root);
+            root = left[root];
         }
     }
 
-    private class Node {
-        int key;
-        Node left;
-        Node right;
-    }
 }
