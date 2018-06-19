@@ -20,7 +20,7 @@ class Ex01TreeTraversal {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer stk = new StringTokenizer(in.readLine());
 
-        // create tree
+        // read data
         int n = Integer.parseInt(stk.nextToken());
         key = new int[n];
         left = new int[n];
@@ -32,16 +32,39 @@ class Ex01TreeTraversal {
             right[i] = Integer.parseInt(stk.nextToken());
         }
 
+        // traversals
         List<Integer> inOrder = inOrder();
-        print(inOrder);
+        printList(inOrder);
+        List<Integer> preOrder = preOrder();
+        printList(preOrder);
+        List<Integer> postOrder = postOrder();
+        printList(postOrder);
     }
 
-    private void print(List<Integer> list) {
-        StringBuilder sb = new StringBuilder();
-        for (int item: list) {
-            sb.append(item).append(" ");
+    private List<Integer> postOrder() {
+        List<Integer> result = new ArrayList<>();
+        Stack<Integer> stack = new Stack<>();
+        stack.push(0);
+        while (!stack.isEmpty()) {
+            int top = stack.pop();
+            result.add(0, key[top]);
+            if (left[top] != -1) stack.push(left[top]);
+            if (right[top] != -1) stack.push(right[top]);
         }
-        System.out.println(sb.toString().trim());
+        return result;
+    }
+
+    private List<Integer> preOrder() {
+        List<Integer> result = new ArrayList<>();
+        Stack<Integer> stack = new Stack<>();
+        stack.push(0);
+        while (!stack.isEmpty()) {
+            int top = stack.pop();
+            result.add(key[top]);
+            if (right[top] != -1) stack.push(right[top]);
+            if (left[top] != -1) stack.push(left[top]);
+        }
+        return result;
     }
 
     private List<Integer> inOrder() {
@@ -66,4 +89,11 @@ class Ex01TreeTraversal {
         }
     }
 
+    private void printList(List<Integer> list) {
+        StringBuilder sb = new StringBuilder();
+        for (int item: list) {
+            sb.append(item).append(" ");
+        }
+        System.out.println(sb.toString().trim());
+    }
 }

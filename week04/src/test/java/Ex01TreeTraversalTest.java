@@ -23,7 +23,8 @@ public class Ex01TreeTraversalTest {
         // when
         new Ex01TreeTraversal().run();
         // then
-        assertEquals("1 2 3 4 5\n", systemOutRule.getLog());
+        assertEquals("1 2 3 4 5\n4 2 1 3 5\n1 3 2 5 4\n", systemOutRule.getLog());
+
     }
 
     @Test
@@ -36,7 +37,9 @@ public class Ex01TreeTraversalTest {
         // when
         new Ex01TreeTraversal().run();
         // then
-        assertEquals("50 70 80 30 90 40 0 20 10 60\n", systemOutRule.getLog());
+        assertEquals("50 70 80 30 90 40 0 20 10 60\n" +
+                "0 70 50 40 30 80 90 20 60 10\n" +
+                "50 80 90 30 40 70 10 60 20 0\n" , systemOutRule.getLog());
     }
 
 }
